@@ -17,29 +17,22 @@ try:
 except FileNotFoundError:
     st.error("TF-IDF vectorizer file not found. Please make sure the vectorizer file is available.")
 
-# Function to get emoji based on sentiment prediction
 def get_emoji(prediction):
     if prediction == 0:
-        return "😞"  # Sad emoji for negative sentiment
+        return "😞"  
     else:
-        return "😊"  # Smiling emoji for positive sentiment
+        return "😊"  
 
-# Input field for the tweet
 tweet = st.text_input("Enter your tweet")
 
-# Button to trigger prediction
 submit = st.button('Predict')
 
-# Make prediction when button is clicked and text input is not empty
-if submit and tweet.strip():  # Check if tweet is not empty
+if submit and tweet.strip():  
     try:
-        # Vectorize the input tweet
         tweet_vectorized = tfidf_vectorizer.transform([tweet])
 
-        # Make prediction
         prediction = model.predict(tweet_vectorized)
 
-        # Display prediction with emoji
         emoji = get_emoji(prediction[0])
         if prediction[0] == 0:
             st.markdown(f"<h1 style='text-align: center;'>{emoji} Negative tweet</h1>", unsafe_allow_html=True)
